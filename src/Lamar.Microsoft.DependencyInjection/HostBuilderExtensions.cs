@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -20,26 +19,26 @@ namespace Lamar.Microsoft.DependencyInjection
         Lamar
     }
     
-    public static class WebHostBuilderExtensions
+    public static class HostBuilderExtensions
     {
-        public static IWebHostBuilder UseLamar(this IWebHostBuilder builder)
+        public static IHostBuilder UseLamar(this IHostBuilder builder)
         {
             return UseLamar(builder, LoggingAndOptionResolving.Lamar);
         }
         
-        public static IWebHostBuilder UseLamar(this IWebHostBuilder builder, LoggingAndOptionResolving resolving)
+        public static IHostBuilder UseLamar(this IHostBuilder builder, LoggingAndOptionResolving resolving)
         {
             return UseLamar(builder, registry: null, resolving:resolving);
         }
 
-        public static IWebHostBuilder UseLamar(this IWebHostBuilder builder, ServiceRegistry registry)
+        public static IHostBuilder UseLamar(this IHostBuilder builder, ServiceRegistry registry)
         {
             return UseLamar(builder, registry: registry, resolving:LoggingAndOptionResolving.Lamar);
         }
 
-        public static IWebHostBuilder UseLamar(this IWebHostBuilder builder, ServiceRegistry registry, LoggingAndOptionResolving resolving)
+        public static IHostBuilder UseLamar(this IHostBuilder builder, ServiceRegistry registry, LoggingAndOptionResolving resolving)
         {
-            return builder.ConfigureServices(services => { services.AddLamar(registry, resolving); });
+            return builder.ConfigureServices((context, services) => { services.AddLamar(registry, resolving); });
         }
 
         public static IServiceCollection AddLamar(this IServiceCollection services)

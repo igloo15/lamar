@@ -28,19 +28,18 @@ namespace Lamar.Testing.AspNetCoreIntegration
         public void with_aspnet_core()
         {
             var builder = WebHost.CreateDefaultBuilder()
-                
                 .ConfigureAppConfiguration(config =>
                 {
                     config.SetBasePath(Directory.GetCurrentDirectory());
                     config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
                 })
                 .ConfigureLogging(x =>
-            {
-//                x.AddConsole();
-//                x.AddDebug();
-            })
-                .UseStartup<Startup>()
-                .UseLamar();
+                {
+                    //                x.AddConsole();
+                    //                x.AddDebug();
+                })
+                .UseStartup<Startup>();
+                //.UseLamar();
             
             var host = builder.Build();
             var services = host.Services;
